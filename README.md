@@ -1,0 +1,2 @@
+# Real-Time-Spike-Detection-Hardware-Software-Co-Design-for-Edge-Devices
+A lightweight hardware–software co-designed spike detector for real-time streaming sensor data. The design uses a running mean–based algorithm to detect abrupt anomalies caused by noise or transient faults. Implemented on an FPGA for low-latency, deterministic operation with low resource utilization, suitable for edge and embedded systems.
