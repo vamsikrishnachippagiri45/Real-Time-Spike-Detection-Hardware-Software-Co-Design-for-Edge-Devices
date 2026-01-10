@@ -109,4 +109,20 @@ In the running mean computation, division is required to calculate the mean shif
 This makes the operator ideal for low-power, resource-constrained FPGA designs.
 
 
-
+# AXI and DMA
+In modern SoC platforms such as Zynq, the Advanced eX-
+tensible Interface (AXI) protocol provides a high-throughput,
+low-latency interconnect for on-chip communication. The
+AXI-Stream variant is particularly well-suited for streaming
+data applications due to its lightweight control mechanism,
+utilizing only a few essential signals like TVALID, TREADY,
+and TDATA. This makes it ideal for real-time data processing
+tasks such as anomaly detection in sensor streams.
+DMA enables efficient data movement between memory
+and peripherals without processor intervention, significantly
+reducing CPU overhead. This is particularly useful in systems
+handling high-speed or continuous data, such as real-time
+analytics on FPGA platforms. In such designs, DMA transfers
+data between external memory and custom hardware IPs,
+facilitating parallelism between data processing and system
+control tasks
