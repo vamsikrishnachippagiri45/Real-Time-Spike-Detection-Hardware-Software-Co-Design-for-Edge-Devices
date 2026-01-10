@@ -7,3 +7,69 @@ In recent years, edge computing has become important in many areas such as indus
 To overcome these limitations, our work presents a lightweight spike detection strategy using a running mean approach that analyzes each incoming data point in real time, without relying on floating-point operations or large memory buffers. The design follows a hardware–software co-design model, where the main detection task is handled by a dedicated hardware unit, while a software layer takes care of control logic and data flow. This structure delivers a fast, power-efficient solution that is ideal for running in real-time on FPGAs at the edge. 
 
 
+# Welford’s Algorithm for Running Mean
+
+In real-time and streaming data systems, computing the mean incrementally is essential for tasks such as anomaly detection, noise suppression, and adaptive thresholding. Storing all past samples or recomputing the mean from scratch is impractical in hardware-constrained systems. Therefore, an efficient running mean algorithm is required.
+
+## Running Mean Definition
+
+For a sequence of samples, the mean after processing N samples is defined as:
+
+μᵢ = (1 / Nᵢ) · Σ(xₖ),  k = 1 to Nᵢ
+
+where:
+- xₖ is the input sample
+- Nᵢ is the current sample count
+
+## Welford’s Algorithm
+
+To efficiently compute the running mean in hardware, this design uses **Welford’s algorithm**, which is numerically stable and well-suited for fixed-point arithmetic. Instead of accumulating large sums, the algorithm maintains a shifting origin and a bounded residual.
+
+### Update Equations
+
+The running mean is updated using the following steps:
+
+
+Pᵢ′ = Pᵢ₋₁ + (xᵢ − mᵢ₋₁)
+
+Δm = [Pᵢ′ / Nᵢ]
+
+mᵢ = mᵢ₋₁ + Δm
+
+Pᵢ = Pᵢ′ − Nᵢ · Δm
+
+### Parameters
+
+- xᵢ   : Current input sample  
+- mᵢ  : Integer-shifted mean  
+- Pᵢ  : Corrected residual sum  
+- Nᵢ  : Sample count  
+- [] : Floor operation enforcing integer division  
+
+The intermediate partial sum P_i' accumulates the deviation from the current origin.  
+The shift delta_m keeps the origin close to the true mean, preventing large numerical growth.
+
+## Mean Approximation
+
+The running mean can be approximated as:
+
+μᵢ = mᵢ + (Pᵢ / Nᵢ)
+
+This representation separates the mean into:
+- An integer component (mᵢ)
+- A fractional correction term (Pᵢ / Nᵢ)
+
+The fractional term remains bounded within ±0.5, ensuring numerical stability and preventing overflow.
+
+## Hardware Advantages
+
+- Uses only integer arithmetic  
+- Avoids large accumulators  
+- Numerically stable for long data streams  
+- Suitable for low-power FPGA and ASIC implementations  
+
+This makes Welford’s algorithm ideal for real-time, streaming hardware designs.
+
+
+
+
