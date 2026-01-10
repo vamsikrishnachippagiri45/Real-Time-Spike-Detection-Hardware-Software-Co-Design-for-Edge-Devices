@@ -95,11 +95,6 @@ This approach avoids:
 - Complex quotient selection logic
 - Long combinational paths
 
-
-
-<img width="417" height="357" alt="image" src="https://github.com/user-attachments/assets/6ac4c4c2-779b-4c0d-a008-5ad5eb6ff8ce" />
-
-
 ## Advantages
 
 - Very low LUT and FF utilization  
