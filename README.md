@@ -70,6 +70,48 @@ The fractional term remains bounded within ±0.5, ensuring numerical stability a
 
 This makes Welford’s algorithm ideal for real-time, streaming hardware designs.
 
+# Division by Next Power-of-Two Operator
+
+Division is one of the most expensive arithmetic operations in digital hardware. Conventional division algorithms such as restoring, non-restoring, and SRT division require complex control logic, iterative subtraction, and long critical paths, especially for large data widths.
+
+In many embedded, signal processing, and edge computing applications, exact division is not always required. Approximate division with bounded error is often sufficient and enables significant hardware savings.
+
+## Power-of-Two Approximation
+
+An efficient alternative to conventional division is to approximate the divisor using the nearest power-of-two. This reduces the division operation to a simple right-shift, which is significantly faster and more resource-efficient in hardware.
+
+A / B ≈ A >> k,  where 2^k ≈ B
+
+
+## Hardware Implementation
+
+The division-by-power-of-two operator is implemented using:
+- Priority encoders to detect the leading one position
+- Shift-add logic to approximate the quotient
+- Simple combinational logic without iterative loops
+
+This approach avoids:
+- Iterative subtraction
+- Complex quotient selection logic
+- Long combinational paths
+
+
+
+<img width="417" height="357" alt="image" src="https://github.com/user-attachments/assets/6ac4c4c2-779b-4c0d-a008-5ad5eb6ff8ce" />
+
+
+## Advantages
+
+- Very low LUT and FF utilization  
+- Short critical path  
+- Deterministic latency  
+- Well-suited for FPGA-based streaming systems  
+
+## Use Case in This Project
+
+In the running mean computation, division is required to calculate the mean shift term. Using a power-of-two approximation significantly reduces hardware complexity while maintaining sufficient accuracy for real-time anomaly detection and signal monitoring applications.
+
+This makes the operator ideal for low-power, resource-constrained FPGA designs.
 
 
 
