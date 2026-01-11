@@ -37,10 +37,14 @@ After exporting the hardware design as a Hardware Description File (HDF), the so
 ### Co-design
 In this system, the hardware and software work together to perform anomaly detection efficiently. The programmable logic (PL) runs a custom IP that processes one input sample per cycle. The processing system (PS) handles control and manages data transfer using DMA. This co-design supports real-time streaming with low latency and efficient resource utilization.
 
+![Block_design](https://github.com/user-attachments/assets/5b0b6d17-b7b9-4be6-b015-a5e6e362d72a)
 
 
 
 # Experimental Results
+
+![data](https://github.com/user-attachments/assets/74962d40-c2c4-4082-8ea0-8ae310820ecc)
+
 
 For validation, a sinusoidal waveform with abrupt positive and negative spikes inserted at random intervals is used as the input, as shown in Figure. This signal is streamed into the spike detection system implemented on the FPGA. The real-time running mean, computed by the hardware IP, is shown in Figure. Due to its lightweight implementation, the IP can be repurposed as a general-purpose running mean engine for various real-time streaming data processing tasks in edge computing environments. The detection output, which flags time instances where the signal exceeds a predefined dynamic threshold, is illustrated in Figure, demonstrating accurate identification of abrupt anomalies. The detection accuracy depends on the choice of threshold, which can be tuned based on the expected signal dynamics and noise characteristics. 
 
