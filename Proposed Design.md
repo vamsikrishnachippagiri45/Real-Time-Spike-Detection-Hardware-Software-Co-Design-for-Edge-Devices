@@ -50,6 +50,16 @@ For validation, a sinusoidal waveform with abrupt positive and negative spikes i
 
 The design is implemented on the ZedBoard Zynq Evaluation Kit (XC7Z020CLG484-1), and all reported resource metrics are based on synthesis results for this platform.
 
+| Parameter                | Delayed Mean Feedback | Immediate Mean Feedback |
+| ------------------------ | --------------------- | ----------------------- |
+| LUTs                     | 767                   | 667                     |
+| Slices                   | 221                   | 201                     |
+| Flip-Flops (FFs)         | 166                   | 197                     |
+| Dynamic Power (mW)       | 10                    | 9                       |
+| Critical Path Delay (ns) | 16.25                 | 22.39                   |
+| Max Frequency (MHz)      | 61.53                 | 44.66                   |
+| Latency (cycles)         | 2                     | 1                       |
+
 From Table, it can be observed that the proposed architecture particularly the immediate mean feedback variant achieves significantly lower hardware utilization and latency, making it highly suitable for low-power spike detection at the edge. On the other hand, the delayed mean feedback variant demonstrates lower critical path delay and supports higher maximum operating frequency, making it more suitable for higher throughput applications where latency is less critical.
 
 
