@@ -16,3 +16,7 @@ In this method, the updated mean is first stored in the output register (mean\_r
 
 ### Immediate Mean Feedback (Cycle-Accurate Design)
 Here, the updated mean is directly used for anomaly detection within the same clock cycle before being stored in mean\_reg, it is shown as path II of Figure. This allows comparison against the most recent (previous) sample, ensuring more accurate spike detection. However, the critical path includes both mean computation and anomaly detection logic, leading to increased delay and potentially reducing the maximum operating frequency.
+
+
+![Block_Diagram](https://github.com/user-attachments/assets/e418ce61-9e67-4951-b5d4-5ec8154b423a)
+
