@@ -1,0 +1,41 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 03.06.2025 06:41:19
+// Design Name: 
+// Module Name: priority_encoder_32bits
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module priority_encoder_32bits(X,Z,V);
+input [31:0]X;
+output [4:0]Z;
+output V;
+wire V0,V1,V2,V3;
+wire [2:0]P,Q,R,S;
+
+priority_encoder_8bits  insta(.A(X[7:0]),.Q(P),.V(V0));
+priority_encoder_8bits  instb(.A(X[15:8]),.Q(Q),.V(V1));
+priority_encoder_8bits  instc(.A(X[23:16]),.Q(R),.V(V2));
+priority_encoder_8bits  instd(.A(X[31:24]),.Q(S),.V(V3));
+assign V = V0 | V1 | V2 | V3 ;
+assign Z[4] = V2 | V3 ;
+assign Z[3] = V3 | ( V1 & (~( V2 | V3 )));
+assign Z[2] = (S[2] | (R[2]&(~V3))) | ( (Q[2] | (P[2] & (~V1)))&(~(V2 | V3)));
+assign Z[1] = (S[1] | (R[1]&(~V3))) | ( (Q[1] | (P[1] & (~V1)))&(~(V2 | V3)));
+assign Z[0] = (S[0] | (R[0]&(~V3))) | ( (Q[0] | (P[0] & (~V1)))&(~(V2 | V3)));
+
+endmodule
