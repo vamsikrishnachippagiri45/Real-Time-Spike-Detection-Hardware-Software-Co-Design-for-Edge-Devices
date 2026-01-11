@@ -20,3 +20,40 @@ Here, the updated mean is directly used for anomaly detection within the same cl
 
 ![Block_Diagram](https://github.com/user-attachments/assets/e418ce61-9e67-4951-b5d4-5ec8154b423a)
 
+# Implementation 
+
+## Hardware
+The proposed design is implemented on a Zynq SoC platform. A 32-bit general-purpose (GP) interface is utilized by the processing system (PS) as a master to access components within the programmable logic (PL). This enables the PS to interact with PL-based peripherals as memory-mapped modules, as illustrated. The PS communicates with the DMA controller through a High-Performance (HP) port, enabling efficient access to and from DDR memory\cite{5}. The custom Spike detection IP is implemented in the Programmable Logic (PL) and is connected to the DMA using an AXI-Stream interface, allowing continuous streaming of input data. The IP processes one input sample per clock cycle, making it suitable for real-time streaming scenarios. The spike detection output, generated for each input sample, is transmitted back to the DDR memory via the AXI-Stream interface through the DMA controller.
+
+## Software
+The software tools used in this implementation are Vivado and SDK(software development kit).
+
+### Vivado
+The hardware design is written in Verilog and packaged as a custom IP using the AXI-Stream interface. This IP is then integrated into a block design that includes peripherals such as the Zynq Processing System and the DMA controller. This integration ensures seamless data transfer between PL and PS.
+
+### SDK
+After exporting the hardware design as a Hardware Description File (HDF), the software application is developed in C. The processing system is programmed to configure the DMA controller, initiate transfers, and manage memory-mapped communication. Input data is stored in DDR memory by the PS, and after processing by the custom IP, the output is transferred via DMA to DDR Memory.
+
+### Co-design
+In this system, the hardware and software work together to perform anomaly detection efficiently. The programmable logic (PL) runs a custom IP that processes one input sample per cycle. The processing system (PS) handles control and manages data transfer using DMA. This co-design supports real-time streaming with low latency and efficient resource utilization.
+
+
+
+
+# Experimental Results
+
+For validation, a sinusoidal waveform with abrupt positive and negative spikes inserted at random intervals is used as the input, as shown in Figure. This signal is streamed into the spike detection system implemented on the FPGA. The real-time running mean, computed by the hardware IP, is shown in Figure. Due to its lightweight implementation, the IP can be repurposed as a general-purpose running mean engine for various real-time streaming data processing tasks in edge computing environments. The detection output, which flags time instances where the signal exceeds a predefined dynamic threshold, is illustrated in Figure, demonstrating accurate identification of abrupt anomalies. The detection accuracy depends on the choice of threshold, which can be tuned based on the expected signal dynamics and noise characteristics. 
+
+The design is implemented on the ZedBoard Zynq Evaluation Kit (XC7Z020CLG484-1), and all reported resource metrics are based on synthesis results for this platform.
+
+From Table, it can be observed that the proposed architecture particularly the immediate mean feedback variant achieves significantly lower hardware utilization and latency, making it highly suitable for low-power spike detection at the edge. On the other hand, the delayed mean feedback variant demonstrates lower critical path delay and supports higher maximum operating frequency, making it more suitable for higher throughput applications where latency is less critical.
+
+
+
+
+
+
+
+
+
+
